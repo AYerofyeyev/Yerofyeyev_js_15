@@ -4,16 +4,22 @@
     <meta charset="utf-8">
     <title>Домашнее задание js 15-16</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/8b95d5015c.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="js/script.js" charset="utf-8"></script>
   </head>
   <body>
     <div class="wrapper">
-      <form name="dz15" action="/submit" method="post" class="pure-form">
+      <form name="dz15" onSubmit="pull(); return false;" method="POST" class="pure-form">
         <fieldset>
-          <input type="text" name="query" value="" placeholder="Введите запрос для поиска изображений" class="query">
-          <input type="button" name="search" value="Поиск" class="pure-button pure-button-primary">
+          <input type="text" name="" value="" placeholder="Введите запрос для поиска изображений" class="query">
+          <input type="submit" name="search" value="Поиск" class="pure-button pure-button-primary">
         </fieldset>
       </form>
+      <div class="onload">
+        <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+        <span>Loading...</span>
+      </div>
       <div class="result"></div>
     </div>
   </body>
