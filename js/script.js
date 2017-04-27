@@ -19,8 +19,8 @@ function ready() {
   let search = document.querySelector(".pure-button");
   search.addEventListener("click", pull);
 
-  let onload = document.querySelector(".onload");
-  onload.style.opacity = 0;
+  let loading = document.querySelector(".onload");
+  loading.style.opacity = 0;
 
   let result = document.querySelector(".result");
   result.style.margin = "60px 2px";
@@ -29,15 +29,21 @@ function ready() {
   pull();
 
   function pull() {
+    console.log(query.value);
     let defaultImages = result.querySelectorAll("img");
-    console.log(defaultImages);
     if (defaultImages.length > 0) {
       defaultImages.forEach(function(item, i, defaultImages){
         item.remove();
       });
     }
-    $.getJSON("https://pixabay.com/api/?key=3118779-be29778b1b1db18e334fc6de3&q=" + query.value + "&image_type=photo",
-    function(serverAnswer){
+
+    //CORS
+    let request = "https://pixabay.com/api/?key=3118779-be29778b1b1db18e334fc6de3&q=" + query.value + "&image_type=photo";
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", request, true);
+
+    xhr.onload = function(){
+      let serverAnswer = JSON.parse(xhr.responseText);
       console.log(serverAnswer);
       let library = serverAnswer.hits;
       console.log(library);
@@ -46,12 +52,30 @@ function ready() {
         image[i] = document.createElement("img");
         image[i].src = library[i].previewURL;
         result.appendChild(image[i]);
-        console.log(image[i]);
+        loading.style.opacity = 0; 
       }
-    });
+    };
+    xhr.send();
+    console.log(xhr);
+    loading.style.opacity = 1;
+
+
+    // JSONP
+    // let serverAnswer = document.createElement("script");
+    // serverAnswer.src = "https://pixabay.com/api/?key=3118779-be29778b1b1db18e334fc6de3&q=" + query.value + "&image_type=photo";
+    // console.log(serverAnswer);
+    // result.appendChild(serverAnswer);
+    //
+    // function(){
+    // }
+
+    // jQuery $.getJSON("https://pixabay.com/api/?key=3118779-be29778b1b1db18e334fc6de3&q=" + query.value + "&image_type=photo",
+    //   console.log(serverAnswer);
+    //   console.log(library);
+    //     console.log(image[i]);
+
     return false;
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", ready);
